@@ -1,0 +1,165 @@
+[gd_scene format=3 uid="uid://k75j6hnh43t3"]
+
+[ext_resource type="Script" uid="uid://ce3ifw4v3jgvw" path="res://player/player.gd" id="1_rkbax"]
+[ext_resource type="Texture2D" uid="uid://djdnljd7h3bng" path="res://assets/atlas.png" id="2_rkbax"]
+[ext_resource type="Script" uid="uid://c5n8vw22nwswl" path="res://player/state_machine.gd" id="3_g1dw6"]
+[ext_resource type="Script" uid="uid://bxpwqfecucvlx" path="res://player/idle_state.gd" id="4_yw30f"]
+[ext_resource type="Script" uid="uid://bqgula82fw4vs" path="res://player/move_state.gd" id="5_g6k8r"]
+[ext_resource type="Script" uid="uid://cw6epmramqx1v" path="res://player/attack.gd" id="6_boad6"]
+[ext_resource type="Script" uid="uid://d4e6d4upekme5" path="res://player/roll_state.gd" id="7_boad6"]
+[ext_resource type="Script" uid="uid://3vfw1y7tjejq" path="res://player/dead_state.gd" id="8_rgyib"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sjhmu"]
+size = Vector2(14, 18)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_xryeg"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g1dw6"]
+atlas = ExtResource("2_rkbax")
+region = Rect2(16, 415, 15, 17)
+
+[sub_resource type="Animation" id="Animation_ebec5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-0.13962634]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_rgyib"]
+resource_name = "attack"
+step = 0.0333333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.5333333, 0.56666666),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.31468964, 0.25023302, 1), Color(1, 0.31468964, 0.25023305, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_hg6s5"]
+resource_name = "idle"
+step = 0.0333333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.895, 0.895), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_8t03j"]
+resource_name = "roll"
+step = 0.0333333
+
+[sub_resource type="Animation" id="Animation_2ieo8"]
+resource_name = "walk"
+step = 0.0333333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [-0.13962634, 0.13962634, -0.13962634]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ebec5"]
+_data = {
+&"RESET": SubResource("Animation_ebec5"),
+&"attack": SubResource("Animation_rgyib"),
+&"idle": SubResource("Animation_hg6s5"),
+&"roll": SubResource("Animation_8t03j"),
+&"walk": SubResource("Animation_2ieo8")
+}
+
+[node name="Player" type="CharacterBody2D" unique_id=757362150]
+rotation = -0.13962634
+script = ExtResource("1_rkbax")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1138405325]
+zoom = Vector2(3, 3)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=216214495]
+shape = SubResource("RectangleShape2D_sjhmu")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1389504809]
+replication_config = SubResource("SceneReplicationConfig_xryeg")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=373458559]
+texture = SubResource("AtlasTexture_g1dw6")
+
+[node name="StateMachine" type="Node" parent="." unique_id=1038445525]
+script = ExtResource("3_g1dw6")
+
+[node name="Idle" type="Node" parent="StateMachine" unique_id=519208930]
+script = ExtResource("4_yw30f")
+metadata/_custom_type_script = "uid://diyvma6rcbtsx"
+
+[node name="Move" type="Node" parent="StateMachine" unique_id=107592201]
+script = ExtResource("5_g6k8r")
+speed = 100.0
+metadata/_custom_type_script = "uid://diyvma6rcbtsx"
+
+[node name="Attack" type="Node" parent="StateMachine" unique_id=472176766]
+script = ExtResource("6_boad6")
+metadata/_custom_type_script = "uid://diyvma6rcbtsx"
+
+[node name="Roll" type="Node" parent="StateMachine" unique_id=1680738621]
+script = ExtResource("7_boad6")
+metadata/_custom_type_script = "uid://diyvma6rcbtsx"
+
+[node name="Dead" type="Node" parent="StateMachine" unique_id=454998375]
+script = ExtResource("8_rgyib")
+metadata/_custom_type_script = "uid://diyvma6rcbtsx"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=294276873]
+libraries/ = SubResource("AnimationLibrary_ebec5")

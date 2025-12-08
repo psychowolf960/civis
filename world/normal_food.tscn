@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://bjalwdaovf5sg"]
+
+[ext_resource type="Script" uid="uid://dkweaf47bwfi3" path="res://world/resource_node.gd" id="1_aw1wg"]
+[ext_resource type="Texture2D" uid="uid://djdnljd7h3bng" path="res://assets/atlas.png" id="2_y8jlq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aw1wg"]
+size = Vector2(20, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f3sb7"]
+atlas = ExtResource("2_y8jlq")
+region = Rect2(207, 418, 19, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ky2ai"]
+size = Vector2(10, 10)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fj7yv"]
+
+[node name="Food" type="StaticBody2D" unique_id=2102158353]
+script = ExtResource("1_aw1wg")
+resource_type = "food"
+resource_amount = 2
+metadata/_custom_type_script = "uid://dkweaf47bwfi3"
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1287426586]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=520591583]
+shape = SubResource("RectangleShape2D_aw1wg")
+
+[node name="RessourceSprite" type="Sprite2D" parent="." unique_id=1726824215]
+texture = SubResource("AtlasTexture_f3sb7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=180249965]
+shape = SubResource("RectangleShape2D_ky2ai")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=656788419]
+replication_config = SubResource("SceneReplicationConfig_fj7yv")
