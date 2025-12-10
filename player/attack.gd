@@ -1,6 +1,6 @@
 extends State
 
-var attack_range := 10.0
+var attack_range := 20.0
 var attack_damage := 1
 
 func enter():
@@ -14,6 +14,7 @@ func enter():
 
 
 func perform_attack():
+	$thudSFX.play()
 	var space_state = player.get_world_2d().direct_space_state
 
 	# --- Direction vers la souris ---
@@ -21,7 +22,7 @@ func perform_attack():
 	var direction = (mouse_pos - player.global_position).normalized()
 
 	# --- Point d’impact centré devant le joueur ---
-	var attack_center = player.global_position + direction * (attack_range * 0.6)
+	var attack_center = player.global_position + direction * (attack_range * 0.9)
 
 	# --- Setup de la zone circulaire ---
 	var query = PhysicsShapeQueryParameters2D.new()
@@ -35,9 +36,14 @@ func perform_attack():
 
 	for result in results:
 		var body = result.collider
-		if body is ResourceNode:
-			body.take_damage(attack_damage)
-			break
+		if body is ResourceNode or body.is_in_group("enemies"):
+			# Client → Server RPC
+			if not multiplayer.is_server():
+				body.request_damage.rpc_id(1, player.get_multiplayer_authority())
+			else:
+				# Host can damage directly
+				body.take_damage(attack_damage, player.get_multiplayer_authority())
+
 
 
 func physics_process(delta):

@@ -1,0 +1,167 @@
+[gd_scene format=3 uid="uid://bd83skygmlg14"]
+
+[ext_resource type="Texture2D" uid="uid://8okcwljrgwqs" path="res://assets/campfire.png" id="1_8axll"]
+[ext_resource type="Script" uid="uid://by8dnfa1rqqu" path="res://world/upgrades/upgrade_tier.gd" id="1_lxqcj"]
+[ext_resource type="Script" uid="uid://cue8r4w6gjhqi" path="res://world/upgrades/upgrade_prompt.gd" id="2_jqyo6"]
+[ext_resource type="FontFile" uid="uid://b1g2fhuf4kbnp" path="res://assets/fonts/Bellefair-Regular.ttf" id="2_lxqcj"]
+
+[sub_resource type="GDScript" id="GDScript_b0pso"]
+resource_name = "firecamp"
+script/source = "extends Upgradeable
+class_name Firecamp
+
+var has_respawn := false
+var has_storage := false
+var storage_capacity := 0
+
+func _unlock_functionality():
+	match current_tier:
+		1:  # Tier 1: Camp de base
+			has_respawn = true
+			print(\"Firecamp upgraded! Respawn point unlocked\")
+		2:  # Tier 2: Camp avancé
+			has_storage = true
+			storage_capacity = 100
+			print(\"Firecamp upgraded! Storage unlocked (capacity: 100)\")
+		3:  # Tier 3: Forteresse
+			storage_capacity = 500
+			print(\"Firecamp upgraded! Storage expanded (capacity: 500)\")
+
+func can_respawn() -> bool:
+	return has_respawn
+
+func get_storage_capacity() -> int:
+	return storage_capacity
+"
+
+[sub_resource type="Resource" id="Resource_yoch5"]
+script = ExtResource("1_lxqcj")
+tier_name = "Normal"
+sprite_texture = ExtResource("1_8axll")
+cost = {
+"food": 1,
+"stone": 1,
+"wood": 1
+}
+metadata/_custom_type_script = "uid://by8dnfa1rqqu"
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_8hulu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yoch5"]
+atlas = ExtResource("1_8axll")
+region = Rect2(0, 0, 36, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gbd64"]
+atlas = ExtResource("1_8axll")
+region = Rect2(36, 0, 36, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jtyuq"]
+atlas = ExtResource("1_8axll")
+region = Rect2(72, 0, 36, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w6vlj"]
+atlas = ExtResource("1_8axll")
+region = Rect2(108, 0, 36, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s006v"]
+atlas = ExtResource("1_8axll")
+region = Rect2(144, 0, 36, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0i8l4"]
+atlas = ExtResource("1_8axll")
+region = Rect2(180, 0, 36, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lp0l4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yoch5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gbd64")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jtyuq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w6vlj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s006v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0i8l4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Theme" id="Theme_is0p6"]
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/font_sizes/font_size = 32
+Label/fonts/font = ExtResource("2_lxqcj")
+
+[node name="Firecamp" type="StaticBody2D" unique_id=1215940305]
+script = SubResource("GDScript_b0pso")
+upgrade_tiers = Array[ExtResource("1_lxqcj")]([SubResource("Resource_yoch5")])
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1795373237]
+replication_config = SubResource("SceneReplicationConfig_8hulu")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=2141377146]
+sprite_frames = SubResource("SpriteFrames_lp0l4")
+autoplay = "default"
+frame_progress = 0.29575196
+
+[node name="InteractionArea" type="Area2D" parent="." unique_id=691472669]
+collision_layer = 17
+collision_mask = 17
+
+[node name="UpgradePrompt" type="Control" parent="." unique_id=1972240144]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme = SubResource("Theme_is0p6")
+script = ExtResource("2_jqyo6")
+metadata/_custom_type_script = "uid://cue8r4w6gjhqi"
+
+[node name="Panel" type="Panel" parent="UpgradePrompt" unique_id=2044707158]
+layout_mode = 0
+offset_left = -64.0
+offset_top = -104.0
+offset_right = 64.0
+offset_bottom = -24.0
+
+[node name="Label" type="Label" parent="UpgradePrompt/Panel" unique_id=849888070]
+layout_mode = 0
+offset_top = -40.0
+offset_right = 128.0
+offset_bottom = -3.0
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UpgradePrompt/Panel" unique_id=264004242]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 80.0
+alignment = 1
+
+[node name="Wood" type="Label" parent="UpgradePrompt/Panel/VBoxContainer" unique_id=1358491814]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "wood"
+horizontal_alignment = 1
+
+[node name="Stone" type="Label" parent="UpgradePrompt/Panel/VBoxContainer" unique_id=1629141997]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "stone"
+horizontal_alignment = 1
+
+[node name="Food" type="Label" parent="UpgradePrompt/Panel/VBoxContainer" unique_id=1177087456]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "food"
+horizontal_alignment = 1

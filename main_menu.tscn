@@ -1,9 +1,8 @@
 [gd_scene format=3 uid="uid://dxvqdifsxtr1h"]
 
 [ext_resource type="Script" uid="uid://du23v82cdps36" path="res://main_menu.gd" id="1_06t4h"]
-[ext_resource type="PackedScene" uid="uid://brdd15e2em5ax" path="res://world.tscn" id="2_7vrkn"]
 
-[node name="NodeTunnelDemo" type="Node2D" unique_id=175437367]
+[node name="NodeTunnel" type="Node2D" unique_id=175437367]
 script = ExtResource("1_06t4h")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1686664072]
@@ -63,8 +62,6 @@ layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
 text = "Leave Room"
-
-[node name="World" parent="." unique_id=921628866 instance=ExtResource("2_7vrkn")]
 
 [connection signal="pressed" from="UI/Control/ConnectionControls/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="UI/Control/ConnectionControls/Join" to="." method="_on_join_pressed"]

@@ -3,7 +3,7 @@ extends Node2D
 const PLAYER_SCENE = preload("res://player/player.tscn")
 
 var peer: NodeTunnelPeer
-
+const WORLD = preload("uid://brdd15e2em5ax")
 
 func _ready() -> void:
 	# Create the NodeTunnelPeer
@@ -27,6 +27,9 @@ func _ready() -> void:
 	
 	# Attach room_left signal
 	peer.room_left.connect(_cleanup_room)
+	
+	var map = WORLD.instantiate()
+	self.add_child(map)
 	
 	# At this point, we can access the online ID that the server generated for us
 	%IDLabel.text = "Online ID: " + peer.online_id
@@ -64,6 +67,7 @@ func _on_join_pressed() -> void:
 	
 	# Hide the UI
 	%ConnectionControls.hide()
+	$World/ResourceSpawner.request_full_sync()
 	
 	# Show leave room button
 	%LeaveRoom.show()

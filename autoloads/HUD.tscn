@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://cejcvospoguec"]
+
+[ext_resource type="Script" uid="uid://c72hb2ifv8pks" path="res://autoloads/hud.gd" id="1_lp567"]
+[ext_resource type="FontFile" uid="uid://b1g2fhuf4kbnp" path="res://assets/fonts/Bellefair-Regular.ttf" id="2_fc401"]
+
+[sub_resource type="Theme" id="Theme_rgyib"]
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/font_sizes/font_size = 32
+Label/fonts/font = ExtResource("2_fc401")
+
+[node name="HUD" type="CanvasLayer" unique_id=65722732]
+script = ExtResource("1_lp567")
+
+[node name="UIResources" type="Control" parent="." unique_id=1550392873]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = SubResource("Theme_rgyib")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIResources" unique_id=392093724]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Wood" type="Label" parent="UIResources/VBoxContainer" unique_id=1277493382]
+layout_mode = 2
+text = "Wood"
+
+[node name="Stone" type="Label" parent="UIResources/VBoxContainer" unique_id=1373399533]
+layout_mode = 2
+text = "Stone"
+
+[node name="Food" type="Label" parent="UIResources/VBoxContainer" unique_id=1588275756]
+layout_mode = 2
+text = "Food:"
+
+[node name="HealthBar" type="ProgressBar" parent="UIResources" unique_id=2090318869]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -27.0
+grow_horizontal = 2
+grow_vertical = 0
+value = 100.0
+rounded = true
+show_percentage = false
+
+[node name="WaveLabel" type="Label" parent="UIResources" unique_id=1724306615]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 76.0
+offset_right = 20.0
+offset_bottom = 121.0
+grow_horizontal = 2
+
+[node name="TimeLabel" type="Label" parent="UIResources" unique_id=916066849]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 45.0
+grow_horizontal = 2

@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://da0gi2s284fv3"]
+
+[ext_resource type="Script" uid="uid://dlwub6mvk08xc" path="res://autoloads/resource_spawner.gd" id="1_74ocm"]
+[ext_resource type="PackedScene" uid="uid://bg6m26agw2e73" path="res://world/normal_wood.tscn" id="2_4mftd"]
+[ext_resource type="PackedScene" uid="uid://rtq1l2cf0560" path="res://world/normal_stone.tscn" id="3_oj2lv"]
+[ext_resource type="PackedScene" uid="uid://bjalwdaovf5sg" path="res://world/normal_food.tscn" id="4_05uq1"]
+
+[node name="ResourceSpawner" type="Node" unique_id=88920148]
+script = ExtResource("1_74ocm")
+wood_scene = ExtResource("2_4mftd")
+stone_scene = ExtResource("3_oj2lv")
+food_scene = ExtResource("4_05uq1")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1577023428]
+spawn_path = NodePath("..")

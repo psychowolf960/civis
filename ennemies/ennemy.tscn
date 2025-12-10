@@ -1,17 +1,11 @@
-[gd_scene format=3 uid="uid://k75j6hnh43t3"]
+[gd_scene format=3 uid="uid://cnono42e5l0j0"]
 
-[ext_resource type="Script" uid="uid://ce3ifw4v3jgvw" path="res://player/player.gd" id="1_rkbax"]
-[ext_resource type="Texture2D" uid="uid://djdnljd7h3bng" path="res://assets/atlas.png" id="2_rkbax"]
-[ext_resource type="Script" uid="uid://c5n8vw22nwswl" path="res://player/state_machine.gd" id="3_g1dw6"]
-[ext_resource type="Script" uid="uid://bxpwqfecucvlx" path="res://player/idle_state.gd" id="4_yw30f"]
-[ext_resource type="Script" uid="uid://bqgula82fw4vs" path="res://player/move_state.gd" id="5_g6k8r"]
-[ext_resource type="Script" uid="uid://cw6epmramqx1v" path="res://player/attack.gd" id="6_boad6"]
-[ext_resource type="Script" uid="uid://d4e6d4upekme5" path="res://player/roll_state.gd" id="7_boad6"]
-[ext_resource type="AudioStream" uid="uid://bvlruxyj0jj1d" path="res://assets/SFX/thud.ogg" id="7_hg6s5"]
-[ext_resource type="Script" uid="uid://3vfw1y7tjejq" path="res://player/dead_state.gd" id="8_rgyib"]
+[ext_resource type="Script" uid="uid://natbnh3vgf0g" path="res://ennemies/ennemy.gd" id="1_hojrk"]
+[ext_resource type="Texture2D" uid="uid://djdnljd7h3bng" path="res://assets/atlas.png" id="2_nt6k6"]
+[ext_resource type="AudioStream" uid="uid://cwnlr6e7ximx4" path="res://assets/SFX/skelly/death_skelly.mp3" id="3_2bre7"]
+[ext_resource type="AudioStream" uid="uid://1fes52ebumuh" path="res://assets/SFX/skelly/hit_skelly.mp3" id="3_dwnou"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_sjhmu"]
-size = Vector2(14, 18)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jlap6"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_xryeg"]
 properties/0/path = NodePath(".:position")
@@ -19,8 +13,8 @@ properties/0/spawn = true
 properties/0/replication_mode = 1
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g1dw6"]
-atlas = ExtResource("2_rkbax")
-region = Rect2(16, 415, 15, 17)
+atlas = ExtResource("2_nt6k6")
+region = Rect2(226, 442, 13, 22)
 
 [sub_resource type="Animation" id="Animation_ebec5"]
 length = 0.001
@@ -46,12 +40,36 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [0.0]
+"values": [-0.13962634]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_rgyib"]
 resource_name = "attack"
 step = 0.0333333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.5333333, 0.56666666),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.31468964, 0.25023302, 1), Color(1, 0.31468964, 0.25023305, 1), Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_hg6s5"]
 resource_name = "idle"
@@ -98,16 +116,14 @@ _data = {
 &"walk": SubResource("Animation_2ieo8")
 }
 
-[node name="Player" type="CharacterBody2D" unique_id=757362150 groups=["players"]]
-collision_layer = 16
-collision_mask = 16
-script = ExtResource("1_rkbax")
-
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1138405325]
-zoom = Vector2(3, 3)
+[node name="Ennemy" type="CharacterBody2D" unique_id=757362150 groups=["enemies"]]
+rotation = -0.13962634
+motion_mode = 1
+script = ExtResource("1_hojrk")
+chase_range = 3000.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=216214495]
-shape = SubResource("RectangleShape2D_sjhmu")
+shape = SubResource("CapsuleShape2D_jlap6")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1389504809]
 replication_config = SubResource("SceneReplicationConfig_xryeg")
@@ -115,32 +131,11 @@ replication_config = SubResource("SceneReplicationConfig_xryeg")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=373458559]
 texture = SubResource("AtlasTexture_g1dw6")
 
-[node name="StateMachine" type="Node" parent="." unique_id=1038445525]
-script = ExtResource("3_g1dw6")
-
-[node name="Idle" type="Node" parent="StateMachine" unique_id=519208930]
-script = ExtResource("4_yw30f")
-metadata/_custom_type_script = "uid://diyvma6rcbtsx"
-
-[node name="Move" type="Node" parent="StateMachine" unique_id=107592201]
-script = ExtResource("5_g6k8r")
-speed = 100.0
-metadata/_custom_type_script = "uid://diyvma6rcbtsx"
-
-[node name="Attack" type="Node" parent="StateMachine" unique_id=472176766]
-script = ExtResource("6_boad6")
-metadata/_custom_type_script = "uid://diyvma6rcbtsx"
-
-[node name="thudSFX" type="AudioStreamPlayer2D" parent="StateMachine/Attack" unique_id=635446245]
-stream = ExtResource("7_hg6s5")
-
-[node name="Roll" type="Node" parent="StateMachine" unique_id=1680738621]
-script = ExtResource("7_boad6")
-metadata/_custom_type_script = "uid://diyvma6rcbtsx"
-
-[node name="Dead" type="Node" parent="StateMachine" unique_id=454998375]
-script = ExtResource("8_rgyib")
-metadata/_custom_type_script = "uid://diyvma6rcbtsx"
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=294276873]
 libraries/ = SubResource("AnimationLibrary_ebec5")
+
+[node name="HitSFX" type="AudioStreamPlayer2D" parent="." unique_id=1127487248]
+stream = ExtResource("3_dwnou")
+
+[node name="DeathSFX" type="AudioStreamPlayer2D" parent="." unique_id=1132997615]
+stream = ExtResource("3_2bre7")
