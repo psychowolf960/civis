@@ -97,6 +97,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_lxqcj"]
+radius = 150.0
+
 [sub_resource type="Theme" id="Theme_is0p6"]
 Label/colors/font_color = Color(1, 1, 1, 1)
 Label/font_sizes/font_size = 32
@@ -112,11 +115,14 @@ replication_config = SubResource("SceneReplicationConfig_8hulu")
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=2141377146]
 sprite_frames = SubResource("SpriteFrames_lp0l4")
 autoplay = "default"
-frame_progress = 0.29575196
+frame_progress = 0.07025196
 
 [node name="InteractionArea" type="Area2D" parent="." unique_id=691472669]
 collision_layer = 17
 collision_mask = 17
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" unique_id=1417088151]
+shape = SubResource("CircleShape2D_lxqcj")
 
 [node name="UpgradePrompt" type="Control" parent="." unique_id=1972240144]
 layout_mode = 3

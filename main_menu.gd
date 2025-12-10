@@ -67,7 +67,6 @@ func _on_join_pressed() -> void:
 	
 	# Hide the UI
 	%ConnectionControls.hide()
-	$World/ResourceSpawner.request_full_sync()
 	
 	# Show leave room button
 	%LeaveRoom.show()
