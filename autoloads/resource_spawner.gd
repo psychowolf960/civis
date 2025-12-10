@@ -6,9 +6,9 @@ extends Node
 @export var food_scene: PackedScene
 
 @export var map_size := Vector2(2000, 2000)
-@export var wood_count := 50
-@export var stone_count := 30
-@export var food_count := 20
+@export var wood_count := 100
+@export var stone_count := 50
+@export var food_count := 40
 @export var min_distance := 100.0
 @export var world_seed := 12345
 

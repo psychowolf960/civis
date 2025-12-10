@@ -32,8 +32,8 @@ func _process(delta):
 		spawn_timer -= delta
 		if spawn_timer <= 0:
 			spawn_enemy()
-			spawn_timer = 8.0 - (current_wave * 0.3)
-			spawn_timer = max(spawn_timer, 3.0)
+			spawn_timer = 2.0 - (current_wave * 0.3)
+			spawn_timer = max(spawn_timer, 0.5)
 	else:
 		time_until_next_wave -= delta
 		if time_until_next_wave <= 0:
