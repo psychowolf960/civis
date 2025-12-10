@@ -4,7 +4,7 @@ class_name Player
 var resources := {"wood": 0, "stone": 0, "food": 0}
 
 # Health
-@export var max_health := 100
+@export var max_health := 50
 var health := max_health
 
 # Signals
