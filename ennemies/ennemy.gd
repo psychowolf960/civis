@@ -5,7 +5,7 @@ signal destroyed()
 
 @export_group("Stats")
 @export var max_health: int = 4
-@export var speed: float = 120.0
+@export var speed: float = 30.0
 @export var damage: int = 2
 
 @export_group("AI")
