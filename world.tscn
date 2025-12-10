@@ -3,7 +3,6 @@
 [ext_resource type="PackedScene" uid="uid://bg6m26agw2e73" path="res://world/normal_wood.tscn" id="1_f3sb7"]
 [ext_resource type="Texture2D" uid="uid://djdnljd7h3bng" path="res://assets/atlas.png" id="2_tlwt5"]
 [ext_resource type="Script" uid="uid://dofq5bhd1uy74" path="res://world/wave_spawner.gd" id="4_aqk2v"]
-[ext_resource type="PackedScene" uid="uid://bd83skygmlg14" path="res://world/upgrades/firecamp.tscn" id="5_036b0"]
 [ext_resource type="PackedScene" uid="uid://cnono42e5l0j0" path="res://ennemies/ennemy.tscn" id="6_dwbse"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_036b0"]
@@ -37,6 +36,3 @@ tile_set = SubResource("TileSet_dwbse")
 [node name="WaveSpawner" type="Node2D" parent="." unique_id=1254015739]
 script = ExtResource("4_aqk2v")
 enemy_scene = ExtResource("6_dwbse")
-
-[node name="Firecamp" parent="." unique_id=1215940305 instance=ExtResource("5_036b0")]
-position = Vector2(267, 101)
