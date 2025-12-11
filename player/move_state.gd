@@ -22,8 +22,11 @@ func physics_process(_delta):
 	if Input.is_action_just_pressed("roll"):
 		state_machine.change_state("Roll")
 		return
-	
+
 	# Mouvement
 	player.velocity = input_dir.normalized() * speed
-	
+		
+	if player.velocity.x != 0:
+		player.sprite.flip_h = player.velocity.x > 0
+		
 	player.move_and_slide()

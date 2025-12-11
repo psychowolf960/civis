@@ -14,6 +14,7 @@ signal health_changed(current: int, maximum: int)
 @onready var state_machine = $StateMachine
 @onready var camera = $Camera2D
 @onready var animation_player = $AnimationPlayer
+@onready var sprite: Sprite2D = $Sprite2D
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
