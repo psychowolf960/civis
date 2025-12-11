@@ -103,8 +103,12 @@ collision_layer = 16
 collision_mask = 16
 script = ExtResource("1_rkbax")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1138405325]
-zoom = Vector2(3, 3)
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1802404879]
+zoom = Vector2(2, 2)
+limit_left = -950
+limit_top = -340
+limit_right = 2040
+limit_bottom = 1200
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=216214495]
 shape = SubResource("RectangleShape2D_sjhmu")

@@ -7,7 +7,10 @@
 
 [sub_resource type="GDScript" id="GDScript_b0pso"]
 resource_name = "firecamp"
-script/source = "extends Upgradeable
+script/source = "# ============================================================================
+# FIRECAMP
+# ============================================================================
+extends Upgradeable
 class_name Firecamp
 
 var has_respawn := false
@@ -34,111 +37,49 @@ func get_storage_capacity() -> int:
 	return storage_capacity
 "
 
-[sub_resource type="Resource" id="Resource_yoch5"]
+[sub_resource type="Resource" id="Resource_jqyo6"]
 script = ExtResource("1_lxqcj")
-tier_name = "Normal"
+tier_name = "Base"
 sprite_texture = ExtResource("1_8axll")
-cost = {
-"food": 1,
-"stone": 1,
-"wood": 1
-}
 metadata/_custom_type_script = "uid://by8dnfa1rqqu"
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_8hulu"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_yoch5"]
-atlas = ExtResource("1_8axll")
-region = Rect2(0, 0, 36, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_gbd64"]
-atlas = ExtResource("1_8axll")
-region = Rect2(36, 0, 36, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jtyuq"]
-atlas = ExtResource("1_8axll")
-region = Rect2(72, 0, 36, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_w6vlj"]
-atlas = ExtResource("1_8axll")
-region = Rect2(108, 0, 36, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_s006v"]
-atlas = ExtResource("1_8axll")
-region = Rect2(144, 0, 36, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0i8l4"]
-atlas = ExtResource("1_8axll")
-region = Rect2(180, 0, 36, 48)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_lp0l4"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_yoch5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gbd64")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jtyuq")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_w6vlj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_s006v")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0i8l4")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
+[sub_resource type="Theme" id="Theme_lxqcj"]
+default_font = ExtResource("2_lxqcj")
+default_font_size = 16
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lxqcj"]
 radius = 150.0
 
-[sub_resource type="Theme" id="Theme_is0p6"]
-Label/colors/font_color = Color(1, 1, 1, 1)
-Label/font_sizes/font_size = 32
-Label/fonts/font = ExtResource("2_lxqcj")
-
-[node name="Firecamp" type="StaticBody2D" unique_id=1215940305]
+[node name="Firecamp" type="Area2D" unique_id=266809014]
+collision_layer = 16
+collision_mask = 16
 script = SubResource("GDScript_b0pso")
-upgrade_tiers = Array[ExtResource("1_lxqcj")]([SubResource("Resource_yoch5")])
+upgrade_tiers = Array[ExtResource("1_lxqcj")]([SubResource("Resource_jqyo6")])
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1795373237]
 replication_config = SubResource("SceneReplicationConfig_8hulu")
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=2141377146]
-sprite_frames = SubResource("SpriteFrames_lp0l4")
-autoplay = "default"
-frame_progress = 0.07025196
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1980146434]
+texture = ExtResource("1_8axll")
 
-[node name="InteractionArea" type="Area2D" parent="." unique_id=691472669]
-collision_layer = 17
-collision_mask = 17
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" unique_id=1417088151]
-shape = SubResource("CircleShape2D_lxqcj")
-
-[node name="UpgradePrompt" type="Control" parent="." unique_id=1972240144]
+[node name="UpgradePrompt" type="Control" parent="." unique_id=954947871]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-theme = SubResource("Theme_is0p6")
+offset_left = -64.0
+offset_top = -136.0
+offset_right = 64.0
+offset_bottom = -24.0
+theme = SubResource("Theme_lxqcj")
 script = ExtResource("2_jqyo6")
 metadata/_custom_type_script = "uid://cue8r4w6gjhqi"
 
 [node name="Panel" type="Panel" parent="UpgradePrompt" unique_id=2044707158]
 layout_mode = 0
-offset_left = -64.0
-offset_top = -104.0
-offset_right = 64.0
-offset_bottom = -24.0
+offset_top = 32.0
+offset_right = 128.0
+offset_bottom = 112.0
 
 [node name="Label" type="Label" parent="UpgradePrompt/Panel" unique_id=849888070]
 layout_mode = 0
@@ -171,3 +112,6 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "food"
 horizontal_alignment = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1417088151]
+shape = SubResource("CircleShape2D_lxqcj")

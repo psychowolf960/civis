@@ -6,7 +6,7 @@ func enter():
 	if player.animation_player:
 		player.animation_player.play("idle")
 
-func physics_process(delta):
+func physics_process(_delta):
 	var input_dir = Input.get_vector("left", "right", "up", "down")
 	
 	if input_dir.length() > 0.1:

@@ -142,18 +142,23 @@ func _attack():
 	can_attack = true
 
 @rpc("any_peer", "call_remote", "reliable")
-func request_damage(amount: int, id: int):
+func request_damage(amount: int, attacker_id: int):
 	if multiplayer.is_server() and not is_destroyed:
-		take_damage(amount, id)
+		take_damage(amount, attacker_id)
 
 func take_damage(amount: int, attacker_id: int):
 	if is_destroyed: return
 	
 	current_health -= amount
-	if sprite.flip_h:
-		knockback = target.global_position * 1.0
-	else:
-		knockback = target.global_position * -1.0
+	
+	# Fixed knockback direction - push away from attacker
+	var attacker = get_tree().get_nodes_in_group("players").filter(
+		func(p): return p.get_multiplayer_authority() == attacker_id
+	)
+	if attacker.size() > 0:
+		var direction = (global_position - attacker[0].global_position).normalized()
+		knockback = direction * 200.0  # Adjust strength as needed
+	
 	play_hit_fx.rpc()
 	
 	if current_health <= 0:

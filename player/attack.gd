@@ -46,7 +46,7 @@ func perform_attack():
 
 
 
-func physics_process(delta):
+func physics_process(_delta):
 	pass
 	
 func visualize_hitbox(center: Vector2):

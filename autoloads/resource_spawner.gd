@@ -4,12 +4,15 @@ extends Node
 @export var wood_scene: PackedScene
 @export var stone_scene: PackedScene
 @export var food_scene: PackedScene
-
-@export var map_size := Vector2(2000, 2000)
+@export var spawn_area_origin := Vector2(-800.0, -210.0)
+@export var spawn_area_size := Vector2(2700.0, 1300.0)
 @export var wood_count := 100
 @export var stone_count := 50
 @export var food_count := 40
 @export var min_distance := 100.0
+@export var cluster_chance := 0.3  # 30% chance de créer un cluster
+@export var cluster_size := 5  # Nombre de ressources par cluster
+@export var cluster_radius := 150.0  # Rayon du cluster
 @export var world_seed := 12345
 
 var resources := {} 
@@ -28,17 +31,42 @@ func spawn_all_resources():
 	spawn_resource_type("food", food_scene, food_count)
 
 func spawn_resource_type(type: String, scene: PackedScene, count: int):
-	for i in range(count):
-		var pos = get_valid_spawn_position()
+	var spawned = 0
+	while spawned < count:
+		# Décider si on crée un cluster
+		if randf() < cluster_chance and spawned + cluster_size <= count:
+			spawn_cluster(type, scene, cluster_size)
+			spawned += cluster_size
+		else:
+			var pos = get_valid_spawn_position()
+			create_resource(type, scene, pos)
+			spawned += 1
+
+func spawn_cluster(type: String, scene: PackedScene, size: int):
+	var center = get_valid_spawn_position()
+	for i in range(size):
+		var angle = randf() * TAU
+		var distance = randf_range(0, cluster_radius)
+		var offset = Vector2(cos(angle), sin(angle)) * distance
+		var pos = center + offset
+		# S'assurer que la position reste dans la zone de spawn
+		pos.x = clamp(pos.x, spawn_area_origin.x, spawn_area_origin.x + spawn_area_size.x)
+		pos.y = clamp(pos.y, spawn_area_origin.y, spawn_area_origin.y + spawn_area_size.y)
 		create_resource(type, scene, pos)
 
 func get_valid_spawn_position() -> Vector2:
 	var max_attempts = 100
 	for attempt in range(max_attempts):
-		var pos = Vector2(randf_range(0, map_size.x), randf_range(0, map_size.y))
+		var pos = Vector2(
+			randf_range(spawn_area_origin.x, spawn_area_origin.x + spawn_area_size.x),
+			randf_range(spawn_area_origin.y, spawn_area_origin.y + spawn_area_size.y)
+		)
 		if is_position_valid(pos):
 			return pos
-	return Vector2(randf_range(0, map_size.x), randf_range(0, map_size.y))
+	return Vector2(
+		randf_range(spawn_area_origin.x, spawn_area_origin.x + spawn_area_size.x),
+		randf_range(spawn_area_origin.y, spawn_area_origin.y + spawn_area_size.y)
+	)
 
 func is_position_valid(pos: Vector2) -> bool:
 	for res_data in resources.values():
@@ -61,7 +89,6 @@ func create_resource(type: String, scene: PackedScene, pos: Vector2):
 
 func spawn_resource_instance(id: int, type: String, scene: PackedScene, pos: Vector2):
 	var resource = scene.instantiate()
-	# Naming is critical for RPC path finding
 	resource.name = "Resource_" + str(id) 
 	resource.position = pos
 	resource.resource_id = id
@@ -85,9 +112,6 @@ func get_scene_for_type(type: String) -> PackedScene:
 	return null
 
 func _on_resource_destroyed(resource_id: int):
-	# FIX: Only remove from data. 
-	# Do NOT call queue_free or sync_destruction here. 
-	# Let the ResourceNode handle its own death/animation.
 	if multiplayer.is_server():
 		resources.erase(resource_id)
 
